@@ -1,15 +1,11 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
-	"math/rand"
-	"net/http"
-	"time"
+	"github.com/nicolasmota/what-to-watch/utils"
+	"os"
 )
-
-var myClient = &http.Client{Timeout: 10 * time.Second}
 
 type ResponseJSON struct {
 	Page         int       `json:"page"`
@@ -24,44 +20,28 @@ type Results struct {
 	Overview   string `json:"overview"`
 }
 
-func RandomString(n int) string {
-	rand.Seed(time.Now().UTC().UnixNano())
-	var letter = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
-
-	b := make([]rune, n)
-	for i := range b {
-		b[i] = letter[rand.Intn(len(letter))]
-	}
-	return string(b)
-}
-
-func getJSON(url string, target interface{}) error {
-	r, err := myClient.Get(url)
-	if err != nil {
-		fmt.Println("Deu Erro")
-		return err
-	}
-	defer r.Body.Close()
-
-	return json.NewDecoder(r.Body).Decode(target)
-}
-
 func main() {
-	rand.Seed(time.Now().UTC().UnixNano())
-	apiKey := flag.String("apikey", "foo", "a string")
-
+	apiKey := flag.String("apikey", "", "")
 	flag.Parse()
 
-	x := RandomString(1)
+	if !(len(*apiKey) > 0) {
+		fmt.Println("You need to add apikey as argument. ie: --apikey=xxxkkkwww000332")
+		os.Exit(1)
+	}
+
+	x := utils.RandomString(1)
+
 	movieDbURL := "https://api.themoviedb.org/3/search/movie/?api_key=" + *apiKey + "&language=pt-BR&query=" + x
+
 	resp := new(ResponseJSON)
-	getJSON(movieDbURL, resp)
-	numMovie := rand.Intn(resp.TotalResults)
-	pageNumber := numMovie / 20
-	numMovie = int(numMovie % 20)
+	utils.GetJSON(movieDbURL, resp)
+
+	numMovie, pageNumber := utils.RandomMovieIndex(resp.TotalResults, len(resp.Results))
 	movieDbURL = movieDbURL + "&page=" + string(pageNumber)
+
 	newResp := new(ResponseJSON)
-	getJSON(movieDbURL, newResp)
+	utils.GetJSON(movieDbURL, newResp)
+
 	result := Results{}
 	for index, v := range newResp.Results {
 		if index == numMovie {
