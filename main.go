@@ -24,6 +24,7 @@ type Results struct {
 }
 
 func RandomString(n int) string {
+	rand.Seed(time.Now().UTC().UnixNano())
 	var letter = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
 	b := make([]rune, n)
@@ -45,6 +46,7 @@ func getJSON(url string, target interface{}) error {
 }
 
 func main() {
+	rand.Seed(time.Now().UTC().UnixNano())
 	apiKey := ""
 	x := RandomString(1)
 	movieDbURL := "https://api.themoviedb.org/3/search/movie/?api_key=" + apiKey + "&language=pt-BR&query=" + x
