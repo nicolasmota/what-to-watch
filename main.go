@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// ResponseJSON represents a response returned from themoviedb
 type ResponseJSON struct {
 	Page         int       `json:"page"`
 	TotalResults int       `json:"total_results"`
@@ -14,6 +15,7 @@ type ResponseJSON struct {
 	Results      []Results `json:"results"`
 }
 
+// Results represents the results returned inside from ResponseJSON
 type Results struct {
 	Title      string `json:"title"`
 	PosterPath string `json:"poster_path"`

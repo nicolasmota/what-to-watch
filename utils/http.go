@@ -9,10 +9,11 @@ import (
 
 var client = &http.Client{Timeout: 10 * time.Second}
 
+// GetJSON represents a http request and return a json with the content
 func GetJSON(url string, target interface{}) error {
 	r, err := client.Get(url)
 	if err != nil {
-		fmt.Println("Occured an error: ", err)
+		fmt.Println("Occurred an error: ", err)
 		return err
 	}
 	defer r.Body.Close()
