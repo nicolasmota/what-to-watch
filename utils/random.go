@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// RandomString generate a string based on n argument
 func RandomString(n int) string {
 	rand.Seed(time.Now().UTC().UnixNano())
 	var letter = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
@@ -16,6 +17,7 @@ func RandomString(n int) string {
 	return string(b)
 }
 
+// RandomMovieIndex generate a index of movie inside a pageNumber
 func RandomMovieIndex(total, perPage int) (int, int) {
 	numMovie := rand.Intn(total)
 	pageNumber := numMovie / perPage
