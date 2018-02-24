@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"math/rand"
 	"net/http"
@@ -47,9 +48,12 @@ func getJSON(url string, target interface{}) error {
 
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
-	apiKey := ""
+	apiKey := flag.String("apikey", "foo", "a string")
+
+	flag.Parse()
+
 	x := RandomString(1)
-	movieDbURL := "https://api.themoviedb.org/3/search/movie/?api_key=" + apiKey + "&language=pt-BR&query=" + x
+	movieDbURL := "https://api.themoviedb.org/3/search/movie/?api_key=" + *apiKey + "&language=pt-BR&query=" + x
 	resp := new(ResponseJSON)
 	getJSON(movieDbURL, resp)
 	numMovie := rand.Intn(resp.TotalResults)
@@ -67,5 +71,5 @@ func main() {
 		}
 	}
 
-	fmt.Println(result)
+	fmt.Printf("%+v\n", result)
 }
