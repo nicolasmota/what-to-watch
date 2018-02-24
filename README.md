@@ -1,5 +1,6 @@
 # What to watch
 [![Build Status](https://travis-ci.org/nicolasmota/what-to-watch.svg?branch=master)](https://travis-ci.org/nicolasmota/what-to-watch)
+[![codecov](https://codecov.io/gh/nicolasmota/what-to-watch/branch/master/graph/badge.svg)](https://codecov.io/gh/nicolasmota/what-to-watch)
 
 Random Movie Generator based on themoviedb.org API
 
